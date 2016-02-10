@@ -318,6 +318,9 @@ Control</b>
 /* --- RCC_CFGR2 values ---------------------------------------------------- */
 
 #define RCC_CFGR2_PREDIV			0xf
+/** @defgroup rcc_cfgr2_prediv PLL source predividers
+@ingroup rcc_defines
+@{*/
 #define RCC_CFGR2_PREDIV_NODIV			0x0
 #define RCC_CFGR2_PREDIV_DIV2			0x1
 #define RCC_CFGR2_PREDIV_DIV3			0x2
@@ -334,6 +337,7 @@ Control</b>
 #define RCC_CFGR2_PREDIV_DIV14			0xd
 #define RCC_CFGR2_PREDIV_DIV15			0xe
 #define RCC_CFGR2_PREDIV_DIV16			0xf
+/**@}*/
 
 /* --- RCC_CFGR3 values ---------------------------------------------------- */
 
@@ -379,7 +383,7 @@ extern uint32_t rcc_ahb_frequency;
 extern uint32_t rcc_apb1_frequency;
 
 enum rcc_osc {
-	HSI14, HSI, HSE, PLL, LSI, LSE, HSI48
+	RCC_HSI14, RCC_HSI, RCC_HSE, RCC_PLL, RCC_LSI, RCC_LSE, RCC_HSI48
 };
 
 #define _REG_BIT(base, bit)		(((base) << 5) + (bit))
@@ -401,6 +405,7 @@ enum rcc_periph_clken {
 	/* APB2 peripherals */
 	RCC_SYSCFG_COMP	= _REG_BIT(0x18, 0),
 	RCC_ADC		= _REG_BIT(0x18, 9),
+	RCC_ADC1	= _REG_BIT(0x18, 9), /* Compatibility alias */
 	RCC_TIM1	= _REG_BIT(0x18, 11),
 	RCC_SPI1	= _REG_BIT(0x18, 12),
 	RCC_USART1	= _REG_BIT(0x18, 14),
@@ -427,6 +432,7 @@ enum rcc_periph_clken {
 	RCC_CRS		= _REG_BIT(0x1C, 27),
 	RCC_PWR		= _REG_BIT(0x1C, 28),
 	RCC_DAC		= _REG_BIT(0x1C, 29),
+	RCC_DAC1	= _REG_BIT(0x1C, 29), /* Compatibility alias */
 	RCC_CEC		= _REG_BIT(0x1C, 30),
 
 	/* Advanced peripherals */
@@ -437,6 +443,7 @@ enum rcc_periph_rst {
 	/* APB2 peripherals */
 	RST_SYSCFG	= _REG_BIT(0x0C, 0),
 	RST_ADC		= _REG_BIT(0x0C, 9),
+	RST_ADC1	= _REG_BIT(0x0C, 9), /* Compatibility alias */
 	RST_TIM1	= _REG_BIT(0x0C, 11),
 	RST_SPI1	= _REG_BIT(0x0C, 12),
 	RST_USART1	= _REG_BIT(0x0C, 14),
@@ -463,6 +470,7 @@ enum rcc_periph_rst {
 	RST_CRS		= _REG_BIT(0x10, 27),
 	RST_PWR		= _REG_BIT(0x10, 28),
 	RST_DAC		= _REG_BIT(0x10, 29),
+	RST_DAC1	= _REG_BIT(0x10, 29), /* Compatibility alias */
 	RST_CEC		= _REG_BIT(0x10, 30),
 
 	/* Advanced peripherals */

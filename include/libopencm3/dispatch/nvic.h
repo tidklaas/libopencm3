@@ -12,19 +12,23 @@
 #	include <libopencm3/stm32/f3/nvic.h>
 #elif defined(STM32F4)
 #	include <libopencm3/stm32/f4/nvic.h>
+#elif defined(STM32F7)
+#	include <libopencm3/stm32/f7/nvic.h>
 #elif defined(STM32L0)
 #	include <libopencm3/stm32/l0/nvic.h>
 #elif defined(STM32L1)
 #	include <libopencm3/stm32/l1/nvic.h>
+#elif defined(STM32L4)
+#	include <libopencm3/stm32/l4/nvic.h>
 
 #elif defined(EFM32TG)
-#	include <libopencm3/efm32/efm32tg/nvic.h>
+#	include <libopencm3/efm32/tg/nvic.h>
 #elif defined(EFM32G)
-#	include <libopencm3/efm32/efm32g/nvic.h>
+#	include <libopencm3/efm32/g/nvic.h>
 #elif defined(EFM32LG)
-#	include <libopencm3/efm32/efm32lg/nvic.h>
+#	include <libopencm3/efm32/lg/nvic.h>
 #elif defined(EFM32GG)
-#	include <libopencm3/efm32/efm32gg/nvic.h>
+#	include <libopencm3/efm32/gg/nvic.h>
 
 #elif defined(LPC13XX)
 #	include <libopencm3/lpc13xx/nvic.h>

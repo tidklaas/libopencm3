@@ -79,9 +79,9 @@
 #define USB_TEST			MMIO8(USB_BASE + 0x0F)
 
 /* USB FIFO Endpoint [0-7] */
-#define USB_FIFO8(n)			MMIO8(USB_BASE + 0x20 + n*0x04)
-#define USB_FIFO16(n)			MMIO16(USB_BASE + 0x20 + n*0x04)
-#define USB_FIFO32(n)			MMIO32(USB_BASE + 0x20 + n*0x04)
+#define USB_FIFO8(n)			MMIO8(USB_BASE + 0x20 + (n)*0x04)
+#define USB_FIFO16(n)			MMIO16(USB_BASE + 0x20 + (n)*0x04)
+#define USB_FIFO32(n)			MMIO32(USB_BASE + 0x20 + (n)*0x04)
 
 /* USB Transmit Dynamic FIFO Sizing */
 #define USB_TXFIFOSZ			MMIO8(USB_BASE + 0x62)
@@ -114,25 +114,25 @@
 #define USB_COUNT0			MMIO8(USB_BASE + 0x108)
 
 /* USB Maximum Transmit Data Endpoint [1-7] */
-#define USB_TXMAXP(n)			MMIO16(USB_BASE + 0x100 + n*0x10)
+#define USB_TXMAXP(n)			MMIO16(USB_BASE + 0x100 + (n)*0x10)
 
 /* USB Transmit Control and Status Endpoint [1-7] Low */
-#define USB_TXCSRL(n)			MMIO8(USB_BASE + 0x102 + n*0x10)
+#define USB_TXCSRL(n)			MMIO8(USB_BASE + 0x102 + (n)*0x10)
 
 /* USB Transmit Control and Status Endpoint [1-7] High */
-#define USB_TXCSRH(n)			MMIO8(USB_BASE + 0x103 + n*0x10)
+#define USB_TXCSRH(n)			MMIO8(USB_BASE + 0x103 + (n)*0x10)
 
 /* USB Maximum Receive Data Endpoint [1-7] */
-#define USB_RXMAXP(n)			MMIO16(USB_BASE + 0x104 + n*0x10)
+#define USB_RXMAXP(n)			MMIO16(USB_BASE + 0x104 + (n)*0x10)
 
 /* USB Receive Control and Status Endpoint [1-7] Low */
-#define USB_RXCSRL(n)			MMIO8(USB_BASE + 0x106 + n*0x10)
+#define USB_RXCSRL(n)			MMIO8(USB_BASE + 0x106 + (n)*0x10)
 
 /* USB Receive Control and Status Endpoint [1-7] High */
-#define USB_RXCSRH(n)			MMIO8(USB_BASE + 0x107 + n*0x10)
+#define USB_RXCSRH(n)			MMIO8(USB_BASE + 0x107 + (n)*0x10)
 
 /* USB Receive Byte Count Endpoint [1-7] */
-#define USB_RXCOUNT(n)			MMIO16(USB_BASE + 0x108 + n*0x10)
+#define USB_RXCOUNT(n)			MMIO16(USB_BASE + 0x108 + (n)*0x10)
 
 /* USB Receive Double Packet Buffer Disable */
 #define USB_RXDPKTBUFDIS		MMIO16(USB_BASE + 0x340)

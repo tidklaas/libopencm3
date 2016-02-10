@@ -112,6 +112,7 @@ stm32f2[01][57]?g* stm32f2 ROM=1024K RAM=128K
 
 stm32f302?b* stm32f3ccm ROM=128K RAM=24K CCM=8K
 stm32f302?c* stm32f3ccm ROM=256K RAM=32K CCM=8K
+stm32f302?8* stm32f3 ROM=64K RAM=16K
 stm32f303?b* stm32f3ccm ROM=128K RAM=32K CCM=8K
 stm32f3[01]3?c* stm32f3ccm ROM=256K RAM=40K CCM=8K
 stm32f373?8* stm32f3 ROM=64K RAM=16K
@@ -121,12 +122,16 @@ stm32f3[78]3?8* stm32f3 ROM=256K RAM=32K
 
 stm32f401?b* stm32f4 ROM=128K RAM=64K
 stm32f401?c* stm32f4 ROM=256K RAM=64K
-stm32f401?d* stm32f4 ROM=512K RAM=96K
-stm32f401?e* stm32f4 ROM=384K RAM=96K
+stm32f401?d* stm32f4 ROM=384K RAM=96K
+stm32f401?e* stm32f4 ROM=512K RAM=96K
 stm32f4[01][57]?e* stm32f4ccm ROM=512K RAM=128K CCM=64K
 stm32f4[01][57]?g* stm32f4ccm ROM=1024K RAM=128K CCM=64K
 stm32f4[23][79]?g* stm32f4ccm ROM=1024K RAM=192K CCM=64K
 stm32f4[23][79]?i* stm32f4ccm ROM=2048K RAM=192K CCM=64K
+
+# on F7 CCM is in some datasheets named as DTCM
+stm32f756?e* stm32f7ccm ROM=512K RAM=256K CCM=64K
+stm32f756?g* stm32f7ccm ROM=1024K RAM=256K CCM=64K
 
 stm32l0???6* stm32l0 ROM=32K RAM=8K
 stm32l0???8* stm32l0 ROM=64K RAM=8K
@@ -142,6 +147,10 @@ stm32l15[12]?c* stm32l1eep ROM=256K RAM=32K EEP=8K
 stm32l15[12]?d* stm32l1eep ROM=384K RAM=48K EEP=12K
 stm32l162?c* stm32l1eep ROM=256K RAM=32K EEP=8K
 stm32l162?d* stm32l1eep ROM=384K RAM=48K EEP=12K
+
+stm32l4?6?c* stm32l4 ROM=256K RAM=128K
+stm32l4?6?e* stm32l4 ROM=512K RAM=128K
+stm32l4?6?g* stm32l4 ROM=1024K RAM=128K
 
 stm32ts60 stm32t ROM=32K RAM=10K
 
@@ -313,6 +322,7 @@ rm46l852* rm46l ROM=1280K RAM=192K
 
 stm32f3ccm stm32f3 CCM_OFF=0x10000000
 stm32f4ccm stm32f4 CCM_OFF=0x10000000
+stm32f7ccm stm32f7 CCM_OFF=0x20000000
 stm32l1eep stm32l1 EEP_OFF=0x08080000
 
 ################################################################################
@@ -338,8 +348,11 @@ stm32f1 stm32 ROM_OFF=0x08000000 RAM_OFF=0x20000000 -mcpu=cortex-m3 -mthumb -DST
 stm32f2 stm32 ROM_OFF=0x08000000 RAM_OFF=0x20000000 -mcpu=cortex-m3 -mthumb -DSTM32F2 -lopencm3_stm32f2 -msoft-float
 stm32f3 stm32 ROM_OFF=0x08000000 RAM_OFF=0x20000000 -mcpu=cortex-m4 -mthumb -DSTM32F3 -lopencm3_stm32f3 -mfloat-abi=hard -mfpu=fpv4-sp-d16
 stm32f4 stm32 ROM_OFF=0x08000000 RAM_OFF=0x20000000 -mcpu=cortex-m4 -mthumb -DSTM32F4 -lopencm3_stm32f4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
-stm32l0 stm32 ROM_OFF=0x08000000 RAM_OFF=0x20000000 -mcpu=cortex-m0 -mthumb -DSTM32L0 -lopencm3_stm32l0 -msoft-float
+#stm32f7 is supported on GCC-arm-embedded 4.8 2014q4 
+stm32f7 stm32 ROM_OFF=0x08000000 RAM_OFF=0x20010000 -mcpu=cortex-m7 -mthumb -DSTM32F7 -lopencm3_stm32f7 -mfloat-abi=hard -mfpu=fpv5-sp-d16
+stm32l0 stm32 ROM_OFF=0x08000000 RAM_OFF=0x20000000 -mcpu=cortex-m0plus -mthumb -DSTM32L0 -lopencm3_stm32l0 -msoft-float
 stm32l1 stm32 ROM_OFF=0x08000000 RAM_OFF=0x20000000 -mcpu=cortex-m3 -mthumb -DSTM32L1 -lopencm3_stm32l1 -msoft-float
+stm32l4 stm32 ROM_OFF=0x08000000 RAM_OFF=0x20000000 -mcpu=cortex-m4 -mthumb -DSTM32L4 -lopencm3_stm32l4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
 stm32w stm32 ROM_OFF=0x08000000 RAM_OFF=0x20000000 -mcpu=cortex-m3 -mthumb
 stm32t stm32 ROM_OFF=0x08000000 RAM_OFF=0x20000000 -mcpu=cortex-m3 -mthumb
 

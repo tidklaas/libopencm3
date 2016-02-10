@@ -44,6 +44,7 @@
  * USB Vendor:Interface control requests.
  */
 #define GZ_REQ_SET_PATTERN	1
+#define GZ_REQ_PRODUCE		2
 #define INTEL_COMPLIANCE_WRITE 0x5b
 #define INTEL_COMPLIANCE_READ 0x5c
 
@@ -110,7 +111,7 @@ static const struct usb_interface_descriptor iface_loopback[] = {
 	{
 		.bLength = USB_DT_INTERFACE_SIZE,
 		.bDescriptorType = USB_DT_INTERFACE,
-		.bInterfaceNumber = 0, // still 0, as it's a different config...?
+		.bInterfaceNumber = 0, /* still 0, as it's a different config...? */
 		.bAlternateSetting = 0,
 		.bNumEndpoints = 2,
 		.bInterfaceClass = USB_CLASS_VENDOR,
@@ -140,7 +141,7 @@ static const struct usb_config_descriptor config[] = {
 		.wTotalLength = 0,
 		.bNumInterfaces = 1,
 		.bConfigurationValue = GZ_CFG_SOURCESINK,
-		.iConfiguration = 4, // string index
+		.iConfiguration = 4, /* string index */
 		.bmAttributes = 0x80,
 		.bMaxPower = 0x32,
 		.interface = ifaces_sourcesink,
@@ -151,7 +152,7 @@ static const struct usb_config_descriptor config[] = {
 		.wTotalLength = 0,
 		.bNumInterfaces = 1,
 		.bConfigurationValue = GZ_CFG_LOOPBACK,
-		.iConfiguration = 5, // string index
+		.iConfiguration = 5, /* string index */
 		.bmAttributes = 0x80,
 		.bMaxPower = 0x32,
 		.interface = ifaces_loopback,
@@ -159,7 +160,7 @@ static const struct usb_config_descriptor config[] = {
 };
 
 static char serial[] = "0123456789.0123456789.0123456789";
-static const char * usb_strings[] = {
+static const char *usb_strings[] = {
 	"libopencm3",
 	"Gadget-Zero",
 	serial,
@@ -168,7 +169,7 @@ static const char * usb_strings[] = {
 };
 
 /* Buffer to be used for control requests. */
-static uint8_t usbd_control_buffer[128];
+static uint8_t usbd_control_buffer[5*64];
 static usbd_device *our_dev;
 
 /* Private global for state */
@@ -183,8 +184,8 @@ static struct {
 static void gadget0_ss_out_cb(usbd_device *usbd_dev, uint8_t ep)
 {
 	(void) ep;
-	// TODO - if you're really keen, perf test this. tiva implies it matters
-	//char buf[64] __attribute__ ((aligned(4)));
+	/* TODO - if you're really keen, perf test this. tiva implies it matters */
+	/* char buf[64] __attribute__ ((aligned(4))); */
 	char buf[64];
 	trace_send_blocking8(0, 'O');
 	uint16_t x = usbd_ep_read_packet(usbd_dev, ep, buf, sizeof(buf));
@@ -213,21 +214,21 @@ static void gadget0_ss_in_cb(usbd_device *usbd_dev, uint8_t ep)
 	if (x != sizeof(buf)) {
 		ER_DPRINTF("failed to write?: %d\n", x);
 	}
-	//assert(x == sizeof(buf));
+	/*assert(x == sizeof(buf));*/
 }
 
 static void gadget0_rx_cb_loopback(usbd_device *usbd_dev, uint8_t ep)
 {
 	(void) usbd_dev;
 	ER_DPRINTF("loop rx %x\n", ep);
-	// TODO - unimplemented - consult linux source on proper behaviour
+	/* TODO - unimplemented - consult linux source on proper behaviour */
 }
 
 static void gadget0_tx_cb_loopback(usbd_device *usbd_dev, uint8_t ep)
 {
 	(void) usbd_dev;
 	ER_DPRINTF("loop tx %x\n", ep);
-	// TODO - unimplemented - consult linux source on proper behaviour
+	/* TODO - unimplemented - consult linux source on proper behaviour */
 }
 
 static int gadget0_control_request(usbd_device *usbd_dev,
@@ -241,9 +242,10 @@ static int gadget0_control_request(usbd_device *usbd_dev,
 	(void) buf;
 	(void) len;
 	ER_DPRINTF("ctrl breq: %x, bmRT: %x, windex :%x, wlen: %x, wval :%x\n",
-		req->bRequest, req->bmRequestType, req->wIndex, req->wLength, req->wValue);
+		req->bRequest, req->bmRequestType, req->wIndex, req->wLength,
+		req->wValue);
 
-	// TODO - what do the return values mean again?
+	/* TODO - what do the return values mean again? */
 	switch (req->bRequest) {
 	case GZ_REQ_SET_PATTERN:
 		state.pattern_counter = 0;
@@ -253,6 +255,21 @@ static int gadget0_control_request(usbd_device *usbd_dev,
 	case INTEL_COMPLIANCE_READ:
 		ER_DPRINTF("unimplemented!");
 		return USBD_REQ_NOTSUPP;
+	case GZ_REQ_PRODUCE:
+		ER_DPRINTF("fake loopback of %d\n", req->wValue);
+		if (req->wValue > sizeof(usbd_control_buffer)) {
+			ER_DPRINTF("Can't write more than out control buffer! %d > %d\n",
+				req->wValue, sizeof(usbd_control_buffer));
+			return USBD_REQ_NOTSUPP;
+		}
+		/* Don't produce more than asked for! */
+		if (req->wValue > req->wLength) {
+			ER_DPRINTF("Truncating reply to match wLen\n");
+			*len = req->wLength;
+		} else {
+			*len = req->wValue;
+		}
+		return USBD_REQ_HANDLED;
 	}
 	return USBD_REQ_NEXT_CALLBACK;
 }
@@ -285,7 +302,7 @@ static void gadget0_set_config(usbd_device *usbd_dev, uint16_t wValue)
 	}
 }
 
-usbd_device* gadget0_init(const usbd_driver *driver, const char *userserial)
+usbd_device *gadget0_init(const usbd_driver *driver, const char *userserial)
 {
 #ifdef ER_DEBUG
 	setbuf(stdout, NULL);

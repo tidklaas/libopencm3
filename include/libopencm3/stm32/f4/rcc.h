@@ -546,15 +546,15 @@ extern uint32_t rcc_apb2_frequency;
 
 /* --- Function prototypes ------------------------------------------------- */
 
-typedef enum {
-	CLOCK_3V3_48MHZ,
-	CLOCK_3V3_84MHZ,
-	CLOCK_3V3_120MHZ,
-	CLOCK_3V3_168MHZ,
-	CLOCK_3V3_END
-} clock_3v3_t;
+enum rcc_clock_3v3 {
+	RCC_CLOCK_3V3_48MHZ,
+	RCC_CLOCK_3V3_84MHZ,
+	RCC_CLOCK_3V3_120MHZ,
+	RCC_CLOCK_3V3_168MHZ,
+	RCC_CLOCK_3V3_END
+};
 
-typedef struct {
+struct rcc_clock_scale {
 	uint8_t pllm;
 	uint16_t plln;
 	uint8_t pllp;
@@ -566,15 +566,19 @@ typedef struct {
 	uint8_t power_save;
 	uint32_t apb1_frequency;
 	uint32_t apb2_frequency;
-} clock_scale_t;
+};
 
-extern const clock_scale_t hse_8mhz_3v3[CLOCK_3V3_END];
-extern const clock_scale_t hse_12mhz_3v3[CLOCK_3V3_END];
-extern const clock_scale_t hse_16mhz_3v3[CLOCK_3V3_END];
-extern const clock_scale_t hse_25mhz_3v3[CLOCK_3V3_END];
+extern const struct rcc_clock_scale rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_END];
+extern const struct rcc_clock_scale rcc_hse_12mhz_3v3[RCC_CLOCK_3V3_END];
+extern const struct rcc_clock_scale rcc_hse_16mhz_3v3[RCC_CLOCK_3V3_END];
+extern const struct rcc_clock_scale rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_END];
 
 enum rcc_osc {
-	PLL, HSE, HSI, LSE, LSI
+	RCC_PLL,
+	RCC_HSE,
+	RCC_HSI,
+	RCC_LSE,
+	RCC_LSI
 };
 
 #define _REG_BIT(base, bit)		(((base) << 5) + (bit))
@@ -590,6 +594,8 @@ enum rcc_periph_clken {
 	RCC_GPIOG	= _REG_BIT(0x30, 6),
 	RCC_GPIOH	= _REG_BIT(0x30, 7),
 	RCC_GPIOI	= _REG_BIT(0x30, 8),
+	RCC_GPIOJ	= _REG_BIT(0x30, 9),
+	RCC_GPIOK	= _REG_BIT(0x30, 10),
 	RCC_CRC		= _REG_BIT(0x30, 12),
 	RCC_BKPSRAM	= _REG_BIT(0x30, 18),
 	RCC_CCMDATARAM	= _REG_BIT(0x30, 20),
@@ -673,6 +679,8 @@ enum rcc_periph_clken {
 	SCC_GPIOG	= _REG_BIT(0x50, 6),
 	SCC_GPIOH	= _REG_BIT(0x50, 7),
 	SCC_GPIOI	= _REG_BIT(0x50, 8),
+	SCC_GPIOJ	= _REG_BIT(0x50, 9),
+	SCC_GPIOK	= _REG_BIT(0x50, 10),
 	SCC_CRC		= _REG_BIT(0x50, 12),
 	SCC_FLTIF	= _REG_BIT(0x50, 15),
 	SCC_SRAM1	= _REG_BIT(0x50, 16),
@@ -755,6 +763,8 @@ enum rcc_periph_rst {
 	RST_GPIOG	= _REG_BIT(0x10, 6),
 	RST_GPIOH	= _REG_BIT(0x10, 7),
 	RST_GPIOI	= _REG_BIT(0x10, 8),
+	RST_GPIOJ	= _REG_BIT(0x10, 9),
+	RST_GPIOK	= _REG_BIT(0x10, 10),
 	RST_CRC		= _REG_BIT(0x10, 12),
 	RST_DMA1	= _REG_BIT(0x10, 21),
 	RST_DMA2	= _REG_BIT(0x10, 22),
@@ -848,7 +858,7 @@ void rcc_set_main_pll_hsi(uint32_t pllm, uint32_t plln, uint32_t pllp,
 void rcc_set_main_pll_hse(uint32_t pllm, uint32_t plln, uint32_t pllp,
 			  uint32_t pllq);
 uint32_t rcc_system_clock_source(void);
-void rcc_clock_setup_hse_3v3(const clock_scale_t *clock);
+void rcc_clock_setup_hse_3v3(const struct rcc_clock_scale *clock);
 
 END_DECLS
 

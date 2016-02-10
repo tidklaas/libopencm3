@@ -1,8 +1,7 @@
 ##
 ## This file is part of the libopencm3 project.
 ##
-## Copyright (C) 2009 Uwe Hermann <uwe@hermann-uwe.de>
-## Copyright (C) 2012 chrysn <chrysn@fsfe.org>
+## Copyright (C) 2015 Karl Palsson <karlp@tweak.net.au>
 ##
 ## This library is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU Lesser General Public License as published by
@@ -15,15 +14,15 @@
 ## GNU Lesser General Public License for more details.
 ##
 ## You should have received a copy of the GNU Lesser General Public License
-## along with this library. If not, see <http://www.gnu.org/licenses/>.
+## along with this library.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-LIBNAME		= libopencm3_efm32lg
+LIBNAME		= libopencm3_stm32l4
 SRCLIBDIR	?= ../..
-FAMILY		= EFM32LG
 
-PREFIX		?= arm-none-eabi
-#PREFIX		?= arm-elf
+FP_FLAGS	?= -mfloat-abi=hard -mfpu=fpv4-sp-d16
+PREFIX	        ?= arm-none-eabi
+
 CC		= $(PREFIX)-gcc
 AR		= $(PREFIX)-ar
 TGT_CFLAGS	= -Os \
@@ -31,14 +30,20 @@ TGT_CFLAGS	= -Os \
 		  -Wredundant-decls -Wmissing-prototypes -Wstrict-prototypes \
 		  -Wundef -Wshadow \
 		  -I../../../include -fno-common \
-		  -mcpu=cortex-m3 $(FP_FLAGS) -mthumb -Wstrict-prototypes \
-		  -ffunction-sections -fdata-sections -MD -D$(FAMILY)
+		  -mcpu=cortex-m4 -mthumb $(FP_FLAGS) \
+		  -Wstrict-prototypes \
+		  -ffunction-sections -fdata-sections -MD -DSTM32L4
 TGT_CFLAGS      += $(DEBUG_FLAGS)
-# ARFLAGS	= rcsv
 ARFLAGS		= rcs
-OBJS		=
 
-VPATH += ../:../../cm3
+# Specific objs
+OBJS		= 
+
+# common/shared objs
+OBJS            += rcc_common_all.o
+OBJS            += gpio_common_all.o gpio_common_f0234.o
+
+VPATH += ../../usb:../:../../cm3:../common
+VPATH += ../../ethernet
 
 include ../../Makefile.include
-

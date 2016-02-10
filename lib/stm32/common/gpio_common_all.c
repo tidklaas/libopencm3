@@ -23,8 +23,6 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define WEAK __attribute__((weak))
-
 #include <libopencm3/stm32/gpio.h>
 
 /**@{*/
@@ -36,7 +34,7 @@ Set one or more pins of the given GPIO port to 1 in an atomic operation.
 
 @param[in] gpioport Unsigned int32. Port identifier @ref gpio_port_id
 @param[in] gpios Unsigned int16. Pin identifiers @ref gpio_pin_id
-	     If multiple pins are to be changed, use logical OR '|' to separate
+	     If multiple pins are to be changed, use bitwise OR '|' to separate
 	     them.
 */
 void gpio_set(uint32_t gpioport, uint16_t gpios)
@@ -51,7 +49,7 @@ Clear one or more pins of the given GPIO port to 0 in an atomic operation.
 
 @param[in] gpioport Unsigned int32. Port identifier @ref gpio_port_id
 @param[in] gpios Unsigned int16. Pin identifiers @ref gpio_pin_id
-	     If multiple pins are to be changed, use logical OR '|' to separate
+	     If multiple pins are to be changed, use bitwise OR '|' to separate
 	     them.
 */
 void  gpio_clear(uint32_t gpioport, uint16_t gpios)
@@ -64,7 +62,7 @@ void  gpio_clear(uint32_t gpioport, uint16_t gpios)
 
 @param[in] gpioport Unsigned int32. Port identifier @ref gpio_port_id
 @param[in] gpios Unsigned int16. Pin identifiers @ref gpio_pin_id
-	    If multiple pins are to be read, use logical OR '|' to separate
+	    If multiple pins are to be read, use bitwise OR '|' to separate
 	    them.
 @return Unsigned int16 value of the pin values. The bit position of the pin
 	value returned corresponds to the pin number.
@@ -82,7 +80,7 @@ the non-toggled pins are not affected.
 
 @param[in] gpioport Unsigned int32. Port identifier @ref gpio_port_id
 @param[in] gpios Unsigned int16. Pin identifiers @ref gpio_pin_id
-	     If multiple pins are to be changed, use logical OR '|' to separate
+	     If multiple pins are to be changed, use bitwise OR '|' to separate
 	     them.
 */
 void gpio_toggle(uint32_t gpioport, uint16_t gpios)
@@ -127,7 +125,7 @@ reset.
 
 @param[in] gpioport Unsigned int32. Port identifier @ref gpio_port_id
 @param[in] gpios Unsigned int16. Pin identifiers @ref gpio_pin_id
-	     If multiple pins are to be locked, use logical OR '|' to separate
+	     If multiple pins are to be locked, use bitwise OR '|' to separate
 	     them.
 */
 void gpio_port_config_lock(uint32_t gpioport, uint16_t gpios)
