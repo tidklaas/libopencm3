@@ -17,15 +17,14 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NUFRONT_MEMORYMAP_COMMON_H
-#define NUFRONT_MEMORYMAP_COMMON_H
+#ifndef NUFRONT_UART_COMMONH
+#define NUFRONT_UART_COMMONH
 
-#include <libopencm3/cm3/common.h>
 
 #if defined(NL6621)
-    #include <libopencm3/nufront/nl6621/memorymap.h>
+    #include <libopencm3/nufront/nl6621/uart.h>
 #else
     #error "Nufront family not defined."
 #endif
 
-#endif /* NUFRONT_MEMORYMAP_COMMON_H */
+#endif /* NUFRONT_UART_COMMON_H */

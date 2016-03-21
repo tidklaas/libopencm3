@@ -46,7 +46,11 @@
 #define FLASH_BASE_RM01 0x18000000U
 #define FLASH_BASE_RM10 0x00000000U
 
-#if !defined(ADDR_REMAP) || ADDR_REMAP == 0
+#if !defined(ADDR_REMAP)
+#define ADDR_REMAP  0
+#endif
+
+#if ADDR_REMAP == 0
 #define ROM_BASE    ROM_BASE_RM00
 #define CODE_BASE   CODE_BASE_RM00
 #define SRAM0_BASE  SRAM0_BASE_RM00
