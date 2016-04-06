@@ -2,6 +2,7 @@
  * This file is part of the libopencm3 project.
  *
  * Copyright (C) 2009 Uwe Hermann <uwe@hermann-uwe.de>
+ * Copyright (C) 2016 Tido Klaassen <tido@4gh.eu>
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,7 +18,6 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* TKL: for now just copy from STM32F1 */
 /* Generic linker script for Nufront NL6621 targets using libopencm3. */
 
 /* Memory regions must be defined in the ld script which includes this one. */
@@ -37,7 +37,7 @@ SECTIONS
 		. = ALIGN(4);
 		*(.rodata*)	/* Read-only data */
 		. = ALIGN(4);
-	} >rom
+	} >sram_code
 
 	/* C++ Static constructors/destructors, also used for __attribute__
 	 * ((constructor)) and the likes */
@@ -46,21 +46,21 @@ SECTIONS
 		__preinit_array_start = .;
 		KEEP (*(.preinit_array))
 		__preinit_array_end = .;
-	} >rom
+	} >sram_code
 	.init_array : {
 		. = ALIGN(4);
 		__init_array_start = .;
 		KEEP (*(SORT(.init_array.*)))
 		KEEP (*(.init_array))
 		__init_array_end = .;
-	} >rom
+	} >sram_code
 	.fini_array : {
 		. = ALIGN(4);
 		__fini_array_start = .;
 		KEEP (*(.fini_array))
 		KEEP (*(SORT(.fini_array.*)))
 		__fini_array_end = .;
-	} >rom
+	} >sram_code
 
 	/*
 	 * Another section used by C++ stuff, appears when using newlib with
@@ -68,12 +68,12 @@ SECTIONS
 	 */
 	.ARM.extab : {
 		*(.ARM.extab*)
-	} >rom
+	} >sram_code
 	.ARM.exidx : {
 		__exidx_start = .;
 		*(.ARM.exidx*)
 		__exidx_end = .;
-	} >rom
+	} >sram_code
 
 	. = ALIGN(4);
 	_etext = .;
@@ -83,7 +83,7 @@ SECTIONS
 		*(.data*)	/* Read-write initialized data */
 		. = ALIGN(4);
 		_edata = .;
-	} >ram AT >rom
+	} >sram_data AT >sram_code
 	_data_loadaddr = LOADADDR(.data);
 
 	.bss : {
@@ -91,7 +91,7 @@ SECTIONS
 		*(COMMON)
 		. = ALIGN(4);
 		_ebss = .;
-	} >ram
+	} >sram_data
 
 	/*
 	 * The .eh_frame section appears to be used for C++ exception handling.
@@ -103,5 +103,5 @@ SECTIONS
 	end = .;
 }
 
-PROVIDE(_stack = ORIGIN(ram) + LENGTH(ram));
-
+PROVIDE(_stack = ORIGIN(sram_data) + LENGTH(sram_data));
+PROVIDE(_rom_hook_tbl = ORIGIN(rom_tbl));

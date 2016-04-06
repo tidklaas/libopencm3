@@ -26,25 +26,15 @@
 #define UART_THR         MMIO32(UART_BASE + 0x00U)
 #define UART_DLL         MMIO32(UART_BASE + 0x00U)
 #define UART_DLH         MMIO32(UART_BASE + 0x04U)
-#define UART_IER         MMIO32(UART_BASE + 0x04U)
-#define UART_IIR         MMIO32(UART_BASE + 0x08U)
-#define UART_FCR         MMIO32(UART_BASE + 0x08U)
-#define UART_LCR         MMIO32(UART_BASE + 0x0cU)
-#define UART_MCR         MMIO32(UART_BASE + 0x10U)
-#define UART_LSR         MMIO32(UART_BASE + 0x14U)
-#define UART_MSR         MMIO32(UART_BASE + 0x18U)
-#define UART_SCR         MMIO32(UART_BASE + 0x1cU)
-#define UART_FAR         MMIO32(UART_BASE + 0x70U)
-#define UART_USR         MMIO32(UART_BASE + 0x7cU)
-#define UART_HTX         MMIO32(UART_BASE + 0xa4U)
-#define UART_DMASA       MMIO32(UART_BASE + 0xa8U)
 
+#define UART_IER         MMIO32(UART_BASE + 0x04U)
 #define UART_IER_PTIME      (0x1 << 7)
 #define UART_IER_EDSSI      (0x1 << 3)
 #define UART_IER_ELSI       (0x1 << 2)
 #define UART_IER_ETBEI      (0x1 << 1)
 #define UART_IER_ERBFI      (0x1 << 0)
 
+#define UART_IIR         MMIO32(UART_BASE + 0x08U)
 #define UART_IIR_FIFOSE     (0x3 << 6)
 #define UART_IIR_MODSTAT    (0x0 << 0)
 #define UART_IIR_NONE       (0x1 << 0)
@@ -55,24 +45,23 @@
 #define UART_IIR_TIMEOUT    (0xc << 0)
 #define UART_IIR_MASK       (0xf << 0)
 
+#define UART_FCR         MMIO32(UART_BASE + 0x08U)
 #define UART_FCR_RT_SNGL    (0x0 << 6)
 #define UART_FCR_RT_QURT    (0x1 << 6)
 #define UART_FCR_RT_HALF    (0x2 << 6)
 #define UART_FCR_RT_HIGH    (0x3 << 6)
 #define UART_FCR_RT_MASK    (0x3 << 6)
-
 #define UART_FCR_TE_EMPTY   (0x0 << 4)
 #define UART_FCR_TE_LOW     (0x1 << 4)
 #define UART_FCR_TE_QURT    (0x2 << 4)
 #define UART_FCR_TE_HALF    (0x3 << 4)
 #define UART_FCR_TE_MASK    (0x3 << 4)
-
 #define UART_FCR_DMAM1      (0x1 << 3)
-
 #define UART_FCR_XFIFOR     (0x1 << 2)
 #define UART_FCR_RFIFOR     (0x1 << 1)
 #define UART_FCR_FIFO_EN    (0x1 << 0)
 
+#define UART_LCR         MMIO32(UART_BASE + 0x0cU)
 #define UART_LCR_DLAB       (0x1 << 7)
 #define UART_LCR_BRK        (0x1 << 6)
 #define UART_LCR_STPA       (0x1 << 5)
@@ -85,6 +74,7 @@
 #define UART_LCR_DLS_8BIT   (0x3 << 0)
 #define UART_LCR_DLS_MASK   (0x3 << 0)
 
+#define UART_MCR         MMIO32(UART_BASE + 0x10U)
 #define UART_MCR_SIRE       (0x1 << 6)
 #define UART_MCR_AFCE       (0x1 << 5)
 #define UART_MCR_LB         (0x1 << 4)
@@ -93,6 +83,7 @@
 #define UART_MCR_RTS        (0x1 << 1)
 #define UART_MCR_DTR        (0x1 << 0)
 
+#define UART_LSR         MMIO32(UART_BASE + 0x14U)
 #define UART_LSR_RFE        (0x1 << 7)
 #define UART_LSR_TEMT       (0x1 << 6)
 #define UART_LSR_THRE       (0x1 << 5)
@@ -102,6 +93,7 @@
 #define UART_LSR_OE         (0x1 << 1)
 #define UART_LSR_DR         (0x1 << 0)
 
+#define UART_MSR         MMIO32(UART_BASE + 0x18U)
 #define UART_MSR_DCD        (0x1 << 7)
 #define UART_MSR_RI         (0x1 << 6)
 #define UART_MSR_DSR        (0x1 << 5)
@@ -111,5 +103,18 @@
 #define UART_MSR_DDSR       (0x1 << 1)
 #define UART_MSR_DCTS       (0x1 << 0)
 
+#define UART_SCR         MMIO32(UART_BASE + 0x1cU)
+#define UART_FAR         MMIO32(UART_BASE + 0x70U)
+
+#define UART_USR         MMIO32(UART_BASE + 0x7cU)
+#define UART_USR_BUSY       (0x1 << 0)
+
+#define UART_HTX         MMIO32(UART_BASE + 0xa4U)
+#define UART_DMASA       MMIO32(UART_BASE + 0xa8U)
+
+extern int uart_init(uint32_t speed);
+extern void uart_putc(const char val);
+extern void uart_puts(const char *str);
+extern char uart_getc(void);
 
 #endif /* NUFRONT_NL6621_UART_H */

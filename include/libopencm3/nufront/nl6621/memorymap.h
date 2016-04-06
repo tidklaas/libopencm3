@@ -89,14 +89,14 @@
 #define AHB_MAC1_BASE       (PERIPH_BASE + 0xA0000U)
 #define AHB_SDIO_BASE       (PERIPH_BASE + 0xC0000U)
 #define AHB_PMU_BASE        (PERIPH_BASE + 0x100000U)
-#define QSPI_REG_BASE       (PERIPH_BASE + 0x140000U)
+#define QSPI_BASE           (PERIPH_BASE + 0x140000U)
 #define GDMA_REG_BASE       (PERIPH_BASE + 0x180000U)
 
 /**
  * peripherals in APB0 
  **/
 
-#define SPI_BASE            (APB0_BASE + 0x0000U)
+#define SSPI_BASE           (APB0_BASE + 0x0000U)
 #define TMR0_BASE           (APB0_BASE + 0x1000U)
 #define TMR1_BASE           (APB0_BASE + 0x1014U)
 #define PHY_BASE            (APB0_BASE + 0x2000U)

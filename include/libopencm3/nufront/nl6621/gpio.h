@@ -48,7 +48,7 @@
  * 1 – Output
  */
 #define GPIO_DDR(port)      MMIO32((port) + 0x04U)
-#define GPIOA_DDR(port)     GPIO_DDR(GPIOA)
+#define GPIOA_DDR           GPIO_DDR(GPIOA)
 
 /**
  * Register GPIOA_INT_EN

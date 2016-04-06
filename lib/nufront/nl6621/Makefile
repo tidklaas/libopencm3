@@ -30,14 +30,16 @@ TGT_CFLAGS	= -Os \
 		  -Wundef -Wshadow \
 		  -I../../../include -fno-common \
 		  -mcpu=cortex-m3 $(FP_FLAGS) -mthumb -Wstrict-prototypes \
-		  -ffunction-sections -fdata-sections -MD -DNL6621
+		  -ffunction-sections -fdata-sections -MD -DNL6621 \
+		  -DQSPI_RXTX_BROKEN
+
 TGT_CFLAGS      += $(DEBUG_FLAGS)
 # ARFLAGS	= rcsv
 ARFLAGS		= rcs
 
-OBJS		= 
+OBJS		= flash.o uart.o syscfg.o qspi.o sspi.o assert.o
 
-VPATH += ../../cm3
+VPATH += ../../cm3:../common
 
 include ../../Makefile.include
 
