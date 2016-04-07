@@ -157,7 +157,7 @@ extern void usbd_ep_setup(usbd_device *usbd_dev, uint8_t addr, uint8_t type,
 /** Write a packet
  * @param addr EP address (direction is ignored)
  * @param len # of bytes
- * @return 0 if failed, len if succesful
+ * @return 0 if failed, len if successful
  */
 extern uint16_t usbd_ep_write_packet(usbd_device *usbd_dev, uint8_t addr,
 				const void *buf, uint16_t len);
@@ -187,9 +187,6 @@ extern uint8_t usbd_ep_stall_get(usbd_device *usbd_dev, uint8_t addr);
  * @param nak if nonzero, set NAK
  */
 extern void usbd_ep_nak_set(usbd_device *usbd_dev, uint8_t addr, uint8_t nak);
-
-/* Optional */
-extern void usbd_cable_connect(usbd_device *usbd_dev, uint8_t on);
 
 END_DECLS
 
